@@ -1,0 +1,64 @@
+.movie-ticket-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.movie-ticket {
+  width: 260px;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  margin-right: 60px;
+  margin-bottom: 30px;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    background-color: #f1ece5;
+   }
+}
+
+.ticket-image {
+    border-radius: 20px;
+}
+
+.ticket-text {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.text {
+  margin: 5px 0px;
+}
+
+.ticket-title {
+    font-size: larger;
+    font-weight: 700;
+}
+
+.ticket-des {
+    font-weight: 250;
+}
+
+.ticket-button {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.orderBtn {
+    width: 90px;
+    height: 40px;
+    background-color: #f69c0d;
+    border: #fff;
+    border-radius: 10px;
+    color: #fff;
+    font-weight: 600;
+     
+    &:hover {
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+    }
+}

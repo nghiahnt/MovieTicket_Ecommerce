@@ -1,0 +1,49 @@
+// Import all of Bootstrap's CSS
+@import "bootstrap/scss/bootstrap";
+
+.wrapper {
+  width: 100%;
+  height: 70px;
+}
+
+.content-listMovie {
+  margin-top: 80px;
+}
+
+.header {
+  height: 70px;
+  display: flex;
+  position: fixed;
+}
+
+.logo {
+  border-radius: 22%;
+  margin-top: 10px;
+  margin-left: 50px;
+}
+
+.navbar-items {
+  flex-grow: 1;
+}
+
+.items {
+  margin-top: 20px;
+  display: flex;
+  color: #fff;
+  list-style-type: none;
+  justify-content: space-around;
+}
+
+.add-movie {
+    cursor: pointer;
+}
+
+.navbar-buttons {
+  margin-top: 2px;
+  margin-right: 60px;
+}
+
+.btn {
+  color: #fff !important;
+  margin-top: 10px;
+}

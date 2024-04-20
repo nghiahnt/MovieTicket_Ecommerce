@@ -1,0 +1,40 @@
+.homepage {
+    min-height: 1000px;
+}
+
+.homepage-movie {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 16px;
+}
+
+.homepage-btn {
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 30px;
+}
+
+.btn-home {
+    width: 200px;
+    height: 50px;
+    color: #fff;
+    background-color: #f68437;
+    font-size: larger;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.movieBtn1 {
+    margin-right: 40px;
+    border: none;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+}
+
+.movieBtn2 {
+    margin-left: 40px;
+    background-color: #fff;
+    color: #000;
+}
