@@ -60,6 +60,14 @@
     background-color: #fff;
 }
 
+.deleteBtn {
+    &:hover {
+        background-color: #ef3737;
+        color: #fff;
+        border: none;
+    }
+}
+
 .btn-detail-detail {
     background-color: #f53c0e;
     color: #fff;

@@ -1,46 +1,119 @@
+/* eslint-disable no-unused-vars */
 import "./MovieDetail.scss";
 import images from "../../assets";
 import UpdateModal from "../../components/UpdateModal/UpdateModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { MovieType } from "../../MovieContext";
+import axios from "axios";
 
 function MovieDetail() {
+  const { movieId, setMovieId } = useContext(MovieType);
+  const [movieData, setMovieData] = useState([]);
+  const [movieDataById, setMovieDataById] = useState([]);
+
+  useEffect(() => {
+    const idMovieLocal = localStorage.getItem("id");
+    async function fetchMovieById() {
+      axios
+        .get(`http://localhost:3000/api/getMovieById/${movieId}`)
+        .then((res) => {
+          setMovieData(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    async function fetchMovie(idMovieLocal) {
+      axios
+        .get(`http://localhost:3000/api/getMovieById/${idMovieLocal}`)
+        .then((res) => {
+          setMovieDataById(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    movieId.length != "" ? fetchMovieById() : fetchMovie(idMovieLocal);
+  }, []);
+
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const openUpdateModal = () => {
+  const openUpdateModal = async () => {
     setShowUpdateModal(true);
-  }
+    // Get movie by id
+    await axios
+      .get(`http://localhost:3000/api/getMovieById/${movieId}`)
+      .then((res) => {
+        setMovieDataById(res.data.data);
+        // console.log(movieDataById);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const closeUpdateModal = () => {
     setShowUpdateModal(false);
-  }
+  };
+
+  const preProcessDate = (date) => {
+    const time = new Date(date);
+    let newDate = "";
+    newDate = `${time.getDate()}-${time.getMonth() + 1}-${time.getFullYear()}`;
+    return newDate;
+  };
+
+  const handleDeleteMovie = async () => {
+    axios
+      .delete(`http://localhost:3000/api/deleteMovieById/${movieId}`)
+      .then((res) => {
+        console.log("Movie deleted");
+        setMovieId("");
+        console.log(res);
+        window.location.replace("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
-      {showUpdateModal && <UpdateModal title="Cap nhat" closeModal={closeUpdateModal} />}
+      {showUpdateModal && (
+        <UpdateModal
+          title="Cap nhat"
+          movieData={movieDataById}
+          closeModal={closeUpdateModal}
+          updateModal={showUpdateModal}
+          movieId={movieId}
+        />
+      )}
       <div className="detail-page">
         <div className="movie-detail">
           <img
-            src={images.thumbnail}
+            src={movieData.Image}
             alt="image"
             height={400}
             className="image-detail"
           />
           <div className="content-detail">
             <div className="header-detail">
-              <p className="name-detail">YÊU CUỒNG LOẠN</p>
-              <button className="btn-order_detail" onClick={openUpdateModal}>Sửa phim</button>
+              <p className="name-detail">{movieData.Name}</p>
+              <button className="btn-order_detail" onClick={openUpdateModal}>
+                Sửa phim
+              </button>
             </div>
             <div className="infor-detail">
-              <p className="des-detail">Đạo diễn: Rose Glass</p>
+              <p className="des-detail">{movieData.Director}</p>
+              <p className="des-detail">Diễn viên: {movieData.Actor}</p>
+              <p className="des-detail">Thể loại: {movieData.MovieType}</p>
               <p className="des-detail">
-                Diễn viên: Kristen Stewart, Katy O Brian, Ed Harris
-              </p>
-              <p className="des-detail">Thể loại: Tình cảm,Tội phạm,Hồi hộp</p>
-              <p className="des-detail">Khởi chiếu: 19-04-2024</p>
-              <p className="des-detail">Thời lượng: 99 phút</p>
-              <p className="des-detail">
-                Ngôn ngữ: Tiếng Anh - Phụ đề tiếng Việt
+                Khởi chiếu: {preProcessDate(movieData.PublishDate)}
               </p>
               <p className="des-detail">
-                Rated: C18 - PHIM CẤM PHỔ BIẾN ĐẾN KHÁN GIẢ DƯỚI 18 TUỔI
+                Thời lượng: {movieData.VideoDuration}
               </p>
+              <p className="des-detail">Ngôn ngữ: {movieData.Language}</p>
+              <p className="des-detail">Rated: {movieData.Rated}</p>
             </div>
           </div>
         </div>
@@ -50,13 +123,14 @@ function MovieDetail() {
           </button>
           <button className="btn-detail_infor">Trailer</button>
           <button className="btn-detail_infor">Đánh giá</button>
+          <button
+            className="btn-detail_infor deleteBtn"
+            onClick={handleDeleteMovie}
+          >
+            Xóa phim
+          </button>
         </div>
-        <p className="description-detail">
-          Cuộc tình mới chớm nở giữa nữ quản lý phòng tập Lou (Kristen Stewart)
-          và vận động viên thể hình đầy tham vọng Jackie (Katy O’Brian) khiến cả
-          hai bị lún sâu vào chuỗi những rắc rối đẫm máu liên quan đến gia đình
-          tội phạm khét tiếng của Lou.
-        </p>
+        <p className="description-detail">{movieData.Description}</p>
         <button className="btn-order_detail detail_lastBtn">Đặt vé</button>
       </div>
     </div>
