@@ -6,8 +6,9 @@ const MovieType = createContext();
 
 function MovieContext({ children }) {
   const [movieId, setMovieId] = useState("");
+  const [movieData, setMovieData] = useState([]);
   return (
-    <MovieType.Provider value={{ movieId, setMovieId }}>
+    <MovieType.Provider value={{ movieId, setMovieId, movieData, setMovieData }}>
       {children}
     </MovieType.Provider>
   );

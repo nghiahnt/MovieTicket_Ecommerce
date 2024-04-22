@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./UpdateModal.scss";
 import axios from "axios";
+import { useContext } from "react";
+import { MovieType } from "../../MovieContext";
 
-function UpdateModal({ movieData = {}, ...data }) {
+function UpdateModal({ movieDataById = {}, ...data }) {
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [director, setDirector] = useState("");
@@ -16,7 +18,9 @@ function UpdateModal({ movieData = {}, ...data }) {
   const [rated, setRated] = useState("");
   const [description, setDescription] = useState("");
 
-  const movieDataById = movieData;
+  const { movieData, setMovieData } = useContext(MovieType);
+
+  const idData = movieDataById;
   // console.log(data.movieId);
 
   const _data = data;
@@ -52,24 +56,32 @@ function UpdateModal({ movieData = {}, ...data }) {
 
   const handleUpdteMovie = async (id) => {
     const data = {
-      name: movieDataById.Name,
-      image: movieDataById.Image,
-      director: movieDataById.Director,
-      actor: movieDataById.Actor,
-      movieType: movieDataById.MovieType,
-      publishDate: movieDataById.PublishDate,
-      videoDuration: movieDataById.VideoDuration,
-      language: movieDataById.Language,
-      rated: movieDataById.Rated,
-      description: movieDataById.Description,
+      name: name.length != "" ? name : idData.Name,
+      image: image.length != "" ? image : idData.Image,
+      director: director.length != "" ? director : idData.Director,
+      actor: actor.length != "" ? actor : idData.Actor,
+      movieType: movieType.length != "" ? movieType : idData.MovieType,
+      publishDate:
+        publishDate.length != ""
+          ? publishDate.split("T")[0]
+          : idData.PublishDate.split("T")[0],
+      videoDuration:
+        videoDuration.length != ""
+          ? videoDuration
+          : idData.VideoDuration,
+      language: language.length != "" ? language : idData.Language,
+      rated: rated.length != "" ? rated : idData.Rated,
+      description:
+        description.length != "" ? description : idData.Description,
     };
+
+    console.log(data);
     axios
       .patch(`http://localhost:3000/api/updateMovieById/${id}`, data)
       .then((res) => {
         console.log(res);
-        localStorage.setItem('id', id);
         _data.closeModal();
-        window.location.reload();
+        setMovieData(res.data.data)
       })
       .catch((err) => {
         console.log(err);

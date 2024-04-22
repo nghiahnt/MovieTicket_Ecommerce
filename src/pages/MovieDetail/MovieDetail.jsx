@@ -1,3 +1,4 @@
+/* eslint-disable no-extra-boolean-cast */
 /* eslint-disable no-unused-vars */
 import "./MovieDetail.scss";
 import images from "../../assets";
@@ -8,12 +9,12 @@ import { MovieType } from "../../MovieContext";
 import axios from "axios";
 
 function MovieDetail() {
-  const { movieId, setMovieId } = useContext(MovieType);
-  const [movieData, setMovieData] = useState([]);
+  const { movieId, setMovieId, movieData, setMovieData } =
+    useContext(MovieType);
   const [movieDataById, setMovieDataById] = useState([]);
 
+  const idMovieLocal = localStorage.getItem("id");
   useEffect(() => {
-    const idMovieLocal = localStorage.getItem("id");
     async function fetchMovieById() {
       axios
         .get(`http://localhost:3000/api/getMovieById/${movieId}`)
@@ -24,17 +25,17 @@ function MovieDetail() {
           console.log(err);
         });
     }
-    async function fetchMovie(idMovieLocal) {
-      axios
-        .get(`http://localhost:3000/api/getMovieById/${idMovieLocal}`)
-        .then((res) => {
-          setMovieDataById(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-    movieId.length != "" ? fetchMovieById() : fetchMovie(idMovieLocal);
+    // async function fetchMovie(idMovieLocal) {
+    //   axios
+    //     .get(`http://localhost:3000/api/getMovieById/${idMovieLocal}`)
+    //     .then((res) => {
+    //       setMovieDataById(res.data.data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
+    fetchMovieById();
   }, []);
 
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -81,7 +82,7 @@ function MovieDetail() {
       {showUpdateModal && (
         <UpdateModal
           title="Cap nhat"
-          movieData={movieDataById}
+          movieDataById={movieDataById}
           closeModal={closeUpdateModal}
           updateModal={showUpdateModal}
           movieId={movieId}
