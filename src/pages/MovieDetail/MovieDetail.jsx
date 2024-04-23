@@ -8,6 +8,12 @@ import { useContext } from "react";
 import { MovieType } from "../../MovieContext";
 import axios from "axios";
 
+/**
+ * Usestate: dùng để lưu các state trên giao diện
+ * Use Effect: dùng để fetch(lấy) dữ liệu từ API(Server)
+ * Use Context: dùng để lưu các state trên giao diện ở toàn cục (bao phủ root element)
+ */
+
 function MovieDetail() {
   const { movieId, setMovieId, movieData, setMovieData } =
     useContext(MovieType);
@@ -25,16 +31,6 @@ function MovieDetail() {
           console.log(err);
         });
     }
-    // async function fetchMovie(idMovieLocal) {
-    //   axios
-    //     .get(`http://localhost:3000/api/getMovieById/${idMovieLocal}`)
-    //     .then((res) => {
-    //       setMovieDataById(res.data.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
     fetchMovieById();
   }, []);
 
@@ -67,9 +63,7 @@ function MovieDetail() {
     axios
       .delete(`http://localhost:3000/api/deleteMovieById/${movieId}`)
       .then((res) => {
-        console.log("Movie deleted");
         setMovieId("");
-        console.log(res);
         window.location.replace("/");
       })
       .catch((err) => {

@@ -7,6 +7,8 @@ import { useContext } from "react";
 import { MovieType } from "../../MovieContext";
 
 function UpdateModal({ movieDataById = {}, ...data }) {
+
+  // Use to store input movie
   const [name, setName] = useState("");
   const [image, setImage] = useState("");
   const [director, setDirector] = useState("");
@@ -21,8 +23,6 @@ function UpdateModal({ movieDataById = {}, ...data }) {
   const { movieData, setMovieData } = useContext(MovieType);
 
   const idData = movieDataById;
-  // console.log(data.movieId);
-
   const _data = data;
   const handleModifyMovie = async () => {
     if (_data.updateModal) {
@@ -66,22 +66,17 @@ function UpdateModal({ movieDataById = {}, ...data }) {
           ? publishDate.split("T")[0]
           : idData.PublishDate.split("T")[0],
       videoDuration:
-        videoDuration.length != ""
-          ? videoDuration
-          : idData.VideoDuration,
+        videoDuration.length != "" ? videoDuration : idData.VideoDuration,
       language: language.length != "" ? language : idData.Language,
       rated: rated.length != "" ? rated : idData.Rated,
-      description:
-        description.length != "" ? description : idData.Description,
+      description: description.length != "" ? description : idData.Description,
     };
 
-    console.log(data);
     axios
       .patch(`http://localhost:3000/api/updateMovieById/${id}`, data)
       .then((res) => {
-        console.log(res);
         _data.closeModal();
-        setMovieData(res.data.data)
+        setMovieData(res.data.data);
       })
       .catch((err) => {
         console.log(err);

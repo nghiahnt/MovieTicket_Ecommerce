@@ -48,7 +48,7 @@ function DefaultLayout({ App }) {
             </div>
             <div className="navbar-buttons">
               <a className="btn">Login</a>
-              <a className="btn">Logout</a>
+              <a className="btn">Signup</a>
             </div>
           </div>
         </div>

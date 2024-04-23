@@ -16,7 +16,6 @@ function HomePage() {
       await axios
         .get(`http://localhost:3000/api/getAllMovies`)
         .then((res) => {
-          console.log(res.data);
           setMovieData(res.data.data);
         })
         .catch((err) => console.log(err));

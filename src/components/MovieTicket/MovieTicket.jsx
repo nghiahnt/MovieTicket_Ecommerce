@@ -27,12 +27,14 @@ function MovieTiclet(data) {
         className="movie-ticket-link"
         onClick={() => handleRoute(data.id)}
       >
-        <img
-          src={data.image}
-          alt="ticketImage"
-          height={330}
-          className="ticket-image"
-        />
+        <div className="image-container">
+          <img
+            src={data.image}
+            alt="ticketImage"
+            height={330}
+            className="ticket-image"
+          />
+        </div>
         <div className="ticket-text">
           <p className="text ticket-title">{data.title}</p>
           <p className="text ticket-des">{data.duration}</p>
